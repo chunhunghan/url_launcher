@@ -47,6 +47,7 @@ func (p *UrlLauncherPlugin) canLaunch(arguments interface{}) (reply interface{},
 	if url == "" {
 		return false, errors.New("url is empty")
 	}
+	//windows can accept mailto: sms: tel: notes: , ignore this check condition strings.HasPrefix(url, "?:")
 
 	return true, nil
 }
