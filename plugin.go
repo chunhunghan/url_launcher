@@ -19,6 +19,7 @@ func (p *UrlLauncherPlugin) InitPlugin(messenger plugin.BinaryMessenger) error {
 	fmt.Println("InitPlugin")
 	channel := plugin.NewMethodChannel(messenger, channelName, plugin.StandardMethodCodec{})
 	channel.HandleFunc("launch", p.launch)
+	channel.HandleFunc("canLaunch", p.canLaunch)
 	return nil
 }
 
@@ -28,11 +29,24 @@ func (p *UrlLauncherPlugin) launch(arguments interface{}) (reply interface{}, er
 
 	argsMap := arguments.(map[interface{}]interface{})
 	url = argsMap["url"].(string)
-	if err != nil {
+	if url != "" {
 		return nil, errors.New("url is empty")
 	}
 	browser.OpenURL(url)
 	//ignore 'useSafariVC' , 'useWebView' , 'enableJavaScript' , 'enableDomStorage' , 'universalLinksOnly'
 
 	return nil, nil
+}
+
+func (p *UrlLauncherPlugin) canLaunch(arguments interface{}) (reply interface{}, err error) {
+	fmt.Println("canLaunch")
+	var url string
+
+	argsMap := arguments.(map[interface{}]interface{})
+	url = argsMap["url"].(string)
+	if url != "" {
+		return false, errors.New("url is empty")
+	}
+
+	return true, nil
 }
