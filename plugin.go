@@ -29,7 +29,7 @@ func (p *UrlLauncherPlugin) launch(arguments interface{}) (reply interface{}, er
 
 	argsMap := arguments.(map[interface{}]interface{})
 	url = argsMap["url"].(string)
-	if url != "" {
+	if url == "" {
 		return nil, errors.New("url is empty")
 	}
 	browser.OpenURL(url)
@@ -44,7 +44,7 @@ func (p *UrlLauncherPlugin) canLaunch(arguments interface{}) (reply interface{},
 
 	argsMap := arguments.(map[interface{}]interface{})
 	url = argsMap["url"].(string)
-	if url != "" {
+	if url == "" {
 		return false, errors.New("url is empty")
 	}
 
