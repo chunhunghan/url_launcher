@@ -6,6 +6,7 @@ import (
 	"github.com/go-flutter-desktop/go-flutter"
 	"github.com/go-flutter-desktop/go-flutter/plugin"
 	"github.com/pkg/browser"
+	"github.com/pkg/errors"
 )
 
 const channelName = "plugins.flutter.io/url_launcher"
@@ -27,6 +28,9 @@ func (p *UrlLauncherPlugin) launch(arguments interface{}) (reply interface{}, er
 
 	argsMap := arguments.(map[interface{}]interface{})
 	url = argsMap["url"].(string)
+	if err != nil {
+		return nil, errors.New("url is empty")
+	}
 	browser.OpenURL(url)
 	//ignore 'useSafariVC' , 'useWebView' , 'enableJavaScript' , 'enableDomStorage' , 'universalLinksOnly'
 
